@@ -1,0 +1,63 @@
+
+- var sidebarIcons = ['ion-person-stalker', 'ion-music-note', 'ion-image', 'ion-android-film', 'ion-social-dribbble-outline', 'ion-levels'];
+- var navigationItems = ['Profile', 'Private Keys', 'IPFS/FileCoin', 'Sync', 'Connect Wallet'];
+
+- var detailOptionItems = [{src: 'https://upload.wikimedia.org/wikipedia/commons/9/9b/Logo_of_Google_Drive.png', title: 'Google Drive', body: 'Configure to sync design and code files from Google Drive', }, {src: '', title: 'Dropbox Sync', body: 'Configure to sync design and code files from Dropbox', }, {src: 'https://upload.wikimedia.org/wikipedia/en/8/88/Adobe_Creative_Cloud_Logo.png', title: 'Adobe Creative Cloud', body: 'Configure to sync design and code files from Adobe Creative Cloud', }, {src: 'https://upload.wikimedia.org/wikipedia/commons/0/00/Box_cyan.png', title: 'Box', body: 'Configure to sync design and code files from Box', }, {src: 'https://upload.wikimedia.org/wikipedia/en/f/f0/ICloud_logo_%28new%29.png', title: 'iCloud', body: 'Configure to sync design and code files from iCloud', }, ];
+
+- var checkboxId = 0;
+- var checked = false;
+
+mixin detailsOption(src, title, body)
+	li.Details__options-list__item
+		.Media
+			.Media__side.Media__side--left
+				- var id = title.toLowerCase().replace(/\s+/, '-');
+				img.Media__image(id=id, src=src, alt="")
+
+			.Media__body.Media.u-flex-center--v
+			
+				div
+					h3=title
+					p=body
+					
+				div.Media__side.Media__side--right
+					- checkboxId++
+
+					if checkboxId == 1 || checkboxId == 4
+						- checked = true
+					else
+						- checked = false;
+						
+					input.checkbox-input(id="DetailsOptionCheckbox" + checkboxId, checked=checked, type="checkbox")
+					label.checkbox.ion-ios-checkmark-empty(for="DetailsOptionCheckbox" + checkboxId)
+
+
+.wrapper
+	aside.Sidebar
+		nav.Sidebar__nav(role="navigation")
+			ul.Sidebar__nav-list
+				each icon, index in sidebarIcons
+					if index < sidebarIcons.length - 1
+						li(class="Sidebar__nav-list__item " + icon)
+					else
+						li(class="Sidebar__nav-list__item Sidebar__nav-list__item--active " + icon) 
+
+	section.Details
+		header.Details__header
+			h1.Details__title Canonical Web3
+		
+		nav.Details__nav(role="navigation")
+			ul.Details__nav-list
+				each item in navigationItems
+					if item == 'Sync'
+						li.Details__nav-list__item.Details__nav-list__item--active=item
+					else						
+						li.Details__nav-list__item=item
+						
+		.Details__body
+			ul.Details__options-list
+				each item in detailOptionItems
+					+detailsOption(item.src, item.title, item.body)
+				
+		button#sync.Button.Button--sync
+			span.a-spin.ion-loop
