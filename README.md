@@ -1,3 +1,3 @@
-# Canonical Faber Web3 Hackathon
+# Canonical
 
 Web3 storage from zero to crypto
